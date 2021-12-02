@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import java.util.EmptyStackException;
 
 public class CharacterStackTest {
 
@@ -40,16 +41,21 @@ public class CharacterStackTest {
 		assertEquals(3, stack.getSize());
 	}
 
-	@Test
+	@Test(expected = StackOverflowError.class)
 	public void testLongStringConstructor() {
 		CharacterStack stack = new CharacterStack("012345678901234567891");
-		assertEquals(21, stack.getSize());
 	}
 	
 	@Test
 	public void testPop() {
 		CharacterStack stack = new CharacterStack("aaaaa");
 		assertEquals('a', stack.pop());
+	}
+	
+	@Test(expected = EmptyStackException.class)
+	public void testPopEmpty() {
+		CharacterStack stack = new CharacterStack();
+		stack.pop();
 	}
 
 	@Test
@@ -66,11 +72,10 @@ public class CharacterStackTest {
 		assertEquals(5, stack.getSize());
 	}
 
-	@Test
+	@Test(expected = StackOverflowError.class)
 	public void testLongStringPush() {
 		CharacterStack stack = new CharacterStack();
 		stack.push("012345678901234567890");
-		assertEquals(21, stack.getSize());
 	}
 
 	@Test
@@ -87,13 +92,25 @@ public class CharacterStackTest {
 		assertEquals(0, stack.getSize());
 	}
 
-	@Test
+	@Test(expected = StackOverflowError.class)
 	public void testMaxSizePush() {
 		CharacterStack stack = new CharacterStack();
 		stack.push("01234567890123456789");
-		assertEquals(20, stack.getSize());
 		stack.push('e');
-		assertEquals(21, stack.getSize());
 	}
 
+	// AAA 법칙 준수
+	@Test(expected = StackOverflowError.class)
+	public void testSomething() {
+		// arrange
+		CharacterStack stack = new CharacterStack();
+		// action
+		stack.push("0123456789012345");
+		stack.push("6789012345");
+		// assertion
+		assertEquals('5', stack.pop());
+	}
+	/*
+	* push(String) 함수에서 최대 스택 길이를 체크하지 않는 오류가 있다.
+	* */
 }
