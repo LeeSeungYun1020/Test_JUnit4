@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="StringStack">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/StringStack.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
